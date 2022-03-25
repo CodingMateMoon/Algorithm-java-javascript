@@ -1,4 +1,4 @@
-package ohc02;
+package och02;
 
 public class FunctionTest {
 
@@ -15,7 +15,7 @@ public class FunctionTest {
 
     public static  int calcSum(){
         int sum = 0;
-        int i =;
+        int i;
         for (i= 0; i <=100; i++) {
             sum += 1;
         }
