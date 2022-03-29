@@ -49,7 +49,8 @@ class Outer2{
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            System.out.println("Runnable 구현 익명 클래스");        }
+            System.out.println("Runnable 구현 익명 클래스");
+        }
     };
 
 }
@@ -64,6 +65,7 @@ public class AnonymousInnerTest {
         // getRunnable 호출돼서 끝남 스택에 잡혓으면 없어짐. 그러나 run에서 호출됨
 
 
+        runner.run();
         runner.run();
         out.runnable.run();
     }
