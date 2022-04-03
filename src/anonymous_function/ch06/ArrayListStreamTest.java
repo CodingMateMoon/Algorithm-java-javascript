@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 
 import static java.lang.System.*;
 
+// ArrayList
 public class ArrayListStreamTest {
 
     public static void main(String[] args) {
@@ -16,7 +17,7 @@ public class ArrayListStreamTest {
         sList.add("Jack");
 
         Stream<String> stream = sList.stream();
-        stream.forEach(s-> out.print(s + " "));
+        stream.forEach(s-> out.print("foreachStream : " + s + " "));
         out.println();
 
         sList.stream().sorted().forEach(s-> out.print(s+ " "));
