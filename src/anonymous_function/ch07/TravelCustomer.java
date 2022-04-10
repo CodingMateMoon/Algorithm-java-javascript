@@ -1,11 +1,13 @@
-package anonymous_function.ch06;
+package anonymous_function.ch07;
 
 public class TravelCustomer {
 
+    // 고객 속성
     private String name;   //이름
     private int age;       //나이
     private int price;     //가격
 
+    // 여행객들에 대한 operation 구현.
     public TravelCustomer(String name, int age, int price) {
         this.name = name;
         this.age = age;
