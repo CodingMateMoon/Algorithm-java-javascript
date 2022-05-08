@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/IntelliJAndJava.iml" filepath="$PROJECT_DIR$/IntelliJAndJava.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Algorithm-java-javascript.iml" filepath="$PROJECT_DIR$/Algorithm-java-javascript.iml" />
     </modules>
   </component>
 </project>
