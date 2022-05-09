@@ -158,7 +158,9 @@ parseFloat("05");                  // 5
 parseFloat("09");                  // 9
 parseFloat("0x35");              // 0
 
-let arr1 = [1, 2, 3];
-let arr2 = Array.from(arr1, (x) => x * 2);
-console.log("arr2 : " + arr2);
-console.log("arr1 : " + arr1);
+let originalArray = [1, 2, 3];
+let changedArray = Array.from(originalArray, (x) => x * 2);
+console.log("originalArray : " + originalArray);
+console.log("changedArray : " + changedArray);
+[originalArray[0], originalArray[1]] = [originalArray[1], originalArray[0]];
+console.log("after swap originalArray : " + originalArray);
