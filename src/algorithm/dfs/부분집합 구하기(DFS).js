@@ -42,13 +42,28 @@ function solution(n){
     }
 
     for (let i = max; i >=1; i--) {
-        console.log(i);
+        //console.log(i);
         array = new Array(n);
         index = 0;
         dfs(i);
         let count = 0;
+        while(array[n - 1] == null) {
 
-        console.log(array);
+            // j-1 요소부터 0요소까지 오른쪽으로 하나씩 이동
+            for (let j = n-2; j >= 0 ; j--) {
+                array[j+1] = array[j]
+            }
+            array[0] = 0;
+
+        }
+        //console.log(array);
+        let result = "";
+        for (let j = 0; j < n; j++) {
+            if (array[j] == 1) {
+                result += ((j+1) + " ");
+            }
+        }
+        console.log(result);
     }
 
 }
@@ -64,4 +79,33 @@ n = 4일 경우 1111, 1110, 1101, 1100, 1011, 1010, 1001, 1000, 0111, 0110, 0101
 그 뒤 0,1 여부에 따라 index = 0일때 1 index = 1일때 2, index = 3 일때 3 등을 출력합니다.
 n=3일때 길이가 3인 배열에 나머지 111일 경우 1 2 3 (i+1, i+2, i+3), 110일 경우 1 2 등으로 출력합니다.
 dfs(3) 일때 dfs(1) array[index : 2] = 3 % 2 = 1, dfs(1)일때 dfs(0) array[index : 1] = 1 % 2 = 1, dfs(0)일때 return. array[0] = 1, array[index : 1] = 1 순차적으로 실행 및 return
+배열의 가장 끝 요소가 비어있을 경우 예를 들어 값이 3인 경우 2번째 요소는 3번째로 , 1번째 요소는 2번째로 이동하고 1번째 요소는 0으로 채웁니다. 값이 1인 경우 1 null null 입니다. 우선 1 1 null로 이동하고 첫번째 요소는 0을 넣어줍니다. 0 1 null이 됩니다.
+여전히 가장 끝 요소가 비어있으므로 0 0 1로 이동하고 첫번째 요소는 0을 넣어줍니다(어차피 0입니다).  while(array[n - 1] == null)로 구현합니다.
+110, 011 등 배열 정보를 이용하여 요청한대로 값을 출력합니다다
+
  */
+
+
+function solutionRef(n){
+    let answer=[];
+    let ch=Array.from({length:n+1}, ()=>0);
+    function DFS(L){
+        if(L===n+1){
+            let tmp="";
+            for(let i=1; i<=n; i++){
+                if(ch[i]===1) tmp+=(i+" ");
+            }
+            if(tmp.length>0) answer.push(tmp.trim());
+        }
+        else{
+            ch[L]=1;
+            DFS(L+1);
+            ch[L]=0;
+            DFS(L+1);
+        }
+    }
+    DFS(1);
+    return answer;
+}
+
+console.log(solutionRef(3));
