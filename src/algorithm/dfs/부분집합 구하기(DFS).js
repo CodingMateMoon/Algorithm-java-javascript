@@ -46,7 +46,6 @@ function solution(n){
         array = new Array(n);
         index = 0;
         dfs(i);
-        let count = 0;
         while(array[n - 1] == null) {
 
             // j-1 요소부터 0요소까지 오른쪽으로 하나씩 이동
