@@ -22,6 +22,20 @@
 
 function solution(n){
 
+    let check = Array.from(n+1, () => 0);
+
+    function dfs(v){
+
+    }
+}
+
+/*
+n = 3일 때를 예로 들면 { 1, 2, 3 } 중에서 1 있거나 없는 경우, 2가 있거나 없는 경우, 3이 있거나 없는 경우들을 조합한 것이 부분집합이 됩니다. 1 : o, x 인 경우 1 : o 일 때 2가 o , x인 경우 , 2 : o 일때 3 : o, x인 경우 등
+여러 경우의 수가 o,x 2가지 경우로 곱해집니다. 1,2,3이 모두 있는 경우 : 111 / 1,2만 있는 경우 : 110 / 1,3만 있는 경우 : 101 / 1만 있는 경우 :
+ */
+
+function solutionBefore(n){
+
 
     let max = 1;
     for (let i = 0; i < n; i++) {
@@ -67,7 +81,7 @@ function solution(n){
 
 }
 
-solution(3);
+// solution(3);
 
 /*
 입력예제 3이 주어졌을 때를 먼저 생각하면 1~3 | 1~2 | 1,3 | 1 | 2~3 | 2 | 3 순으로 출력합니다. 1, 2, 3의 부분 집합을 구한다고 할 때 1이 없거나 1이 있는 경우의 수는 2가지.
@@ -107,4 +121,36 @@ function solutionRef(n){
     return answer;
 }
 
-console.log(solutionRef(3));
+// console.log(solutionRef(3));
+
+function solutionCourse(n){
+
+    let answer =[];
+    // 길이 n+1인 배열을 만들고 0으로 초기화합니다.
+    let ch = Array.from({length:n+1}, ()=>0)
+    function DFS(v){
+        if (v === n + 1) {
+            let tmp = "";
+            for (let i = 1; i <= n; i++) {
+                if(ch[i] === 1)
+                    tmp+= i+" ";
+            }
+            // console.log(tmp);
+            if(tmp.length > 0)
+                answer.push(tmp.trim());
+            return;
+        }
+        /*
+        ch[v] = 1은 집합에 포함시키는 것을 의미합니다.
+         */
+        ch[v] = 1;
+        DFS(v + 1);
+        ch[v] = 0;
+        DFS(v + 1);
+    }
+
+    DFS(1)
+    return answer;
+}
+
+console.log(solutionCourse(3));
