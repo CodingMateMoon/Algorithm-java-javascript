@@ -27,14 +27,17 @@ function solution(n){
     function dfs(v){
 
         if(v=== n + 1) {
-            let answer = "";
+            // let answer = "";
+            let answer = [];
             for (let i = 1; i <= n ; i++) {
                 if (check[i] === 1) {
 
-                    answer += i + " ";
+                    answer.push(i);
+                    // answer += i + " ";
                 }
             }
-            console.log(answer);
+            if(answer.length > 0)
+                console.log(answer);
 
             return;
         }
