@@ -38,11 +38,11 @@ function solution(c, n, array){
     }
 
     dfs(0, 0);
-    console.log("max : " + max);
+    //console.log("max : " + max);
     return max;
 }
 
-console.log(solution(259, 5, [81, 58, 42, 33, 61]));
+//console.log(solution(259, 5, [81, 58, 42, 33, 61]));
 
 /*
 	- 예제1에서 259킬로그램(C) 5마리(N)이 첫번째 줄에 먼저 주어지고 각 바둑이의 무게 81 58 42 33 61이 주어졌을 때 각 부분집합중에서 259을 넘지않는 최대합은 242인 것으로 계산하고 출력하고 있습니다.
@@ -56,3 +56,23 @@ console.log(solution(259, 5, [81, 58, 42, 33, 61]));
     dfs(5, sum[181] + 61)을 호출합니다.
     L > 4 이므로 sum(181 + 61 = 242)값과 max값을 비교한 후 max에 242를 넣어주고 return합니다. dfs(5, sum[181] + 61)을 호출한 곳으로 돌아가서 dfs(5, sum[181])을 호출합니다.
  */
+
+function solutionRef(c, arr){
+    let answer=Number.MIN_SAFE_INTEGER;
+    let n=arr.length;
+    function DFS(L, sum){
+        if(sum>c) return;
+        if(L===n){
+            answer=Math.max(answer, sum);
+        }
+        else{
+            DFS(L+1, sum+arr[L]);
+            DFS(L+1, sum);
+        }
+    }
+    DFS(0, 0);
+    return answer;
+}
+
+let arr=[81, 58, 42, 33, 61];
+console.log(solutionRef(259, arr));
