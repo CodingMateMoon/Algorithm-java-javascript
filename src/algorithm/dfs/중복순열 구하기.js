@@ -50,6 +50,7 @@ function solution(n, m){
 
 console.log(solution(3, 3));
 
+
 function solutionBefore(n, m){
 
     let answer = "";
@@ -76,6 +77,11 @@ function solutionBefore(n, m){
 
 /*
 L = 0일때 temp[0] = i (1~ n), dfs(1)을 호출합니다. L = 1, temp[1] = i (1~n), dfs(3)을 호출합니다 L ===3 이므로 resultArray를 출력하고 종료시킵니다.
+D(0) 부터 시작해서 1, 2, 3으로 뽑을 수 있습니다.
+m값에 따라 m중 for문이 필요합니다. 동적으로 m을 받아서 출력하기 때문에 for문으로는 어렵고 재귀를 이용하여 m레벨까지 값을 출력합니다.
+m = 3 일 경우 3레벨까지 저장할 임시 배열을 만들어줍니다. L = 0일때 resultArray에서 0 인덱스에 i를 입력하고 resultArray[0] = i; dfs(L+1); 을 호출합니다.
+L = 1일 때 resultArray에서 1 인덱스에 j (1~n) 를 입력하고 resultArray[1] = j; dfs(L+1);을 호출합니다[D(2)].
+L = 2일 때 resultArray에서 2 인덱스에 k (1~n) 를 입력하고 dfs(2+1); 을 호출합니다. d(3)일 때 if(L === 3) return; 으로 종료시킵니다.
  */
 
 
