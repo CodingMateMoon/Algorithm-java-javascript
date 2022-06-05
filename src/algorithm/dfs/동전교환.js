@@ -19,10 +19,45 @@
 
 function solution(n, array, m){
 
-    function dfs(){
+    let minCount = Number.MAX_SAFE_INTEGER;
+    function dfs(L, sum){
+        if (L > minCount) {
+            return;
+        }
+        if (sum > m) {
+            return;
+        }
 
+        if (sum === m) {
+            minCount = Math.min(minCount, L);
+            return;
+        }
+
+        for (let i = 0; i < n; i++) {
+            dfs(L + 1, sum + array[i]);
+        }
     }
+
+    dfs(0, 0);
+    return minCount;
 }
+
+console.log(solution(3, [1, 2, 5], 15));
+console.log(solution(3, [5, 2, 1], 15));
+
+/*
+
+동전의 종류가 주어질 때 1 2 5로 크기순으로 주어질경우에는 역순으로 가장 큰 수의 동전부터 나누며 필요한 동전의 개수를 구할 수 있지만 크기가 작은 동전이 뒤에 나오는 등 랜덤하게 나오는 경우에는
+가장 큰 동전이 언제 나올지 알 수 없으므로 모든 경우의 수를 다 구하고 그중에서 최소 개수를 선택하는 것이 필요합니다.
+처음 동전이 나올 수 있는 경우의 수는 1,2,5 세가지가 있고 1이 나왔을 때 나올 수 있는 경우의 수는 1,2,5 계속 1만 나올 경우 최대 15번까지 탐색할 수 있습니다.
+1 x 15 = 15. 0레벨부터 시작해서 1,2,5중 하나를 선택한 1레벨에서 다시 1,2,5를 선택한 2레벨로 다음에 나올 수 있는 경우의 수를 구하고 그 합을 계산해서 15원이 되면 종료합니다.
+그래서 가장 많은 횟수가 나오는 경우는 1x15 이고 최소 횟수의 경우 5x3이 됩니다.
+또한 15원이 되는 최소 개수를 저장하고 각 부분집합의 합이 최소 개수(Level)보다 더 작은 경우 최소 개수 minCount를 해당 값으로 바꿉니다.
+ dfs(L, sum)에서 dfs(0,0)부터 시작해서 1,2,5를 선택했을 때 Level이 1인 경우에
+ sum값 1,2,5는  dfs(1,1), dfs(1,2), dfs(1,5)로 표현할 수 있고 for(let i = 1; i <= n ; i++) dfs(L +1, sum + array[i]) 등으로 표현할 수 있습니다.
+	- 부분집합 합이 15인 경우 종료. 합이 15를 넘는 경우도 종료
+	- 부분집합 합의 원소 개수가 최소 원소 사용 개수를 넘어갈 경우 종료. 5x3 = 15. 3개를 넘어가는 부분집합이 나올 경우 더 탐색할 필요가 없습니다.
+* */
 
 function solutionBefore(n, array, m){
 
@@ -47,8 +82,8 @@ function solutionBefore(n, array, m){
     dfs(m, n-1);
 }
 
-solutionBefore(3, [1, 2, 5], 15);
-solutionBefore(3, [5, 2, 1], 15);
+// solutionBefore(3, [1, 2, 5], 15);
+// solutionBefore(3, [5, 2, 1], 15);
 // solution(3, [1, 2, 5], 18);
 // solution(3, [3, 5, 7], 18);
 

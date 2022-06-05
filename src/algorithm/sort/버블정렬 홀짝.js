@@ -53,4 +53,3 @@ function solution(n, array){
 }
 
 console.log(solution(10, [3, 5, 2, 6, 7, 4, 2, 1, 2, 1]));
-console.log(solution(12, [3, 5, 2, 6, 7, 4, 2, 1, 2, 1,1,1]));
