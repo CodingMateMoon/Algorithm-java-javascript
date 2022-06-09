@@ -26,6 +26,11 @@ function solution(n){
 }
 
 /*
+N =4 /  1, 2, 3, 4 까지의 수가 있고 3 1 2 4 로 예를 들면  3 +1 = 4 이고 1 + 2 = 3  2 +4 = 6 입니다.
+3 + 1 + 1 + 2 = 7 , 1 + 2 +2 + 4 = 9 가 나오고  3 + 1 + 1 + 2 + 1 + 2 + 2 + 4 = 16 입니다. 결과적으로 16은 3 x 1 + 1 x 3 + 2 x 3 + 4 x 1 = 16 입니다. 조합의 경우로 봤을 때 3C0 3C1 3C2 3C3 인 것을 알 수 있습니다.
+ */
+
+/* Before
 
 가장 윗줄에 있는 숫자의 개수 N : 4,  가장 밑에 줄에 있는 수 F : 16 이고 파스칼의 삼각형처럼 위의 두개를 더한 값이 저장된다고 할 때 가장 밑에 줄에 있는 수부터 시작해서 16, 7 9 , 4 3 6, 3 1 2 4 와 같이 두 개를 더한 값이 아래쪽의 수와 같은 경우의 수를 구합니다.
 가장 밑에줄에 있는 수가 16일때를 기준으로 1, 15 / 2 14 / 3 13 / 4 16 등이 있고
@@ -38,3 +43,40 @@ dfs(1, 1) , dy[1][1] / dfs(2, 1) = dy[2][1], dfs(2, 2) = dy[2][2]
 dy[1][1] = dy[2][1] + dy[2][2]
 
  */
+
+function solutionRef(n, f){
+    let answer, flag=0;
+    let dy= Array.from(Array(11), () => Array(11).fill(0));
+    let ch=Array.from({length:n+1}, ()=>0);
+    let p=Array.from({length:n}, ()=>0);
+    let b=Array.from({length:n}, ()=>0);
+    function combi(n, r){
+        if(dy[n][r]>0) return dy[n][r];
+        if(n===r || r===0) return 1;
+        else return dy[n][r]=combi(n-1, r-1)+combi(n-1, r);
+    }
+    function DFS(L, sum){
+        if(flag) return;
+        if(L===n && sum===f){
+            answer=p.slice();
+            flag=1;
+        }
+        else{
+            for(let i=1; i<=n; i++){
+                if(ch[i]===0){
+                    ch[i]=1;
+                    p[L]=i;
+                    DFS(L+1, sum+(b[L]*p[L]));
+                    ch[i]=0;
+                }
+            }
+        }
+    }
+    for(let i=0; i<n; i++){
+        b[i]=combi(n-1, i);
+    }
+    DFS(0, 0);
+    return answer;
+}
+
+console.log(solutionRef(4, 16));
