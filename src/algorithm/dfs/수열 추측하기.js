@@ -22,12 +22,47 @@ N과 가장 밑에 있는 숫자가 주어져 있을 때 가장 윗줄에 있는
  */
 
 function solution(n){
-    
+
+    let combinationValue = Array.from(new Array(11), () => new Array(11).fill(0));
+    let check = Array.from(new Array(11), () => false);
+    console.log("check : " + check);
+
+    function combination(n, r){
+        if (combinationValue[n][r] > 0) {
+            return combinationValue[n][r];
+        }
+        if (n === r || r === 0) {
+            return 1;
+        }
+        // console.log(n + " : " + r);
+        return combinationValue[n][r] = combination(n - 1, r - 1) + combination(n - 1, r);
+    }
+
+    function dfs(L, sum){
+        if (L === n) {
+            return;
+        }
+
+        for (let i = 1; i <= n ; i++) {
+            if(check[i])
+                continue;
+
+            check[i] = true;
+            dfs(L + 1, sum + i * combination(n - 1, i - 1));
+            check[i] = false;
+        }
+    }
+
 }
+
+solution(3)
 
 /*
 N =4 /  1, 2, 3, 4 까지의 수가 있고 3 1 2 4 로 예를 들면  3 +1 = 4 이고 1 + 2 = 3  2 +4 = 6 입니다.
-3 + 1 + 1 + 2 = 7 , 1 + 2 +2 + 4 = 9 가 나오고  3 + 1 + 1 + 2 + 1 + 2 + 2 + 4 = 16 입니다. 결과적으로 16은 3 x 1 + 1 x 3 + 2 x 3 + 4 x 1 = 16 입니다. 조합의 경우로 봤을 때 3C0 3C1 3C2 3C3 인 것을 알 수 있습니다.
+3 + 1 + 1 + 2 = 7 , 1 + 2 +2 + 4 = 9 가 나오고  3 + 1 + 1 + 2 + 1 + 2 + 2 + 4 = 16 입니다. 결과적으로 16은 3 x 1 + 1 x 3 + 2 x 3 + 4 x 1 = 16 입니다. 조합의 경우로 봤을 때 3C0 3C1 3C2 3C3 인 것을 알 수 있습니다. 가장 윗줄의 숫자 N = 4 / 1 2 3 4 에 대해 중복하지 않고 나열할 수 있는 경우는 4 x 3 x 2 x 1 등이 있습니다. 각각의 나열한 경우들 1 2 3 4 / 3 1 2 4 들에 대해 3C0 3C1 3C2 3C3 등으로 선택했을 때 합이 16이 되는 경우를 찾습니다. 나열하는 경우들에 대해서는 check 배열을 통해 사용된경우 제외하고 사용하지 않은 경우에는 사용하면서 체크하고 관리합니다. for문을 활용해서 1부터 N까지 각각의 수를 선택했을 때 경우를 구합니다. for(let i = 1; i <= N; i++) 1부터 N까지 나열할 수 있는 경우의 수를 구합니다. n-1 C r 에 대해서 n-1 C 0 부터 n-1 C n-1까지의 수를 구하고 이것을 각각 나열한 경우의 수와 곱한 합이 F가 나오는 경우를 구해야합니다. Level = 1, i = 3 체크 sum 합계에 더할 값은 i (3) * 3C0 (1) = 3 . dfs(L+1, sum + i * combination(n-1, i-1)) 이때 Level === N (4)가 되면 종료합니다. 곱한 합 sum이 F보다 클 경우 return합니다.
+
+	1. check배열 관리 let check = Array.from({length : N}, ()=> false);
+for(let i = 1; i <= N; i++)  dfs(L+1,  sum + i * combination(n, i-1)) 등 나열할 수 있는 경우의 수를 구하고 각각에 조합의 경우의 수 n-1 C i-1  을 곱해줍니다. 이때 i를 사용한 경우 다음번 재귀에서 i를 재사용하는 일이 없도록 체크해줍니다.
  */
 
 /* Before
@@ -79,4 +114,4 @@ function solutionRef(n, f){
     return answer;
 }
 
-console.log(solutionRef(4, 16));
+//console.log(solutionRef(4, 16));
