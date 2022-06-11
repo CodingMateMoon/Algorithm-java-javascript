@@ -21,10 +21,14 @@ N과 가장 밑에 있는 숫자가 주어져 있을 때 가장 윗줄에 있는
 3 1 2 4
  */
 
-function solution(n){
+function solution(n, f){
 
     let combinationValue = Array.from(new Array(11), () => new Array(11).fill(0));
     let check = Array.from(new Array(11), () => false);
+    let resultArray = Array.from({length: 10}, () => 0);
+    let levelCombinationValue = Array.from({length: 10}, () => 0);
+    let flag = false;
+    let answer = [];
     console.log("check : " + check);
 
     function combination(n, r){
@@ -35,27 +39,59 @@ function solution(n){
             return 1;
         }
         // console.log(n + " : " + r);
-        return combinationValue[n][r] = combination(n - 1, r - 1) + combination(n - 1, r);
+        combinationValue[n][r] = combination(n - 1, r - 1) + combination(n - 1, r);
+        return combinationValue[n][r];
     }
 
     function dfs(L, sum){
+        if(flag)
+            return;
+
         if (L === n) {
+            // console.log(resultArray);
+            if(sum === f) {
+                console.log("------answer-----");
+                console.log(resultArray);
+                answer.push(resultArray.slice());
+                flag = true;
+            }
             return;
         }
+        // console.log("테스트"  + " : " + L + " : " + sum);
+        // console.log(resultArray);
+        // console.log("----------------------")
 
+        if (sum > f) {
+            // console.log("sum > f------")
+            // console.log(resultArray);
+            return;
+        }
         for (let i = 1; i <= n ; i++) {
             if(check[i])
                 continue;
-
+            console.log(L + " : " + i + " : " + sum);
+            console.log(resultArray);
             check[i] = true;
-            dfs(L + 1, sum + i * combination(n - 1, i - 1));
+            resultArray[L] = i;
+            console.log("after sum : " + sum);
+            dfs(L + 1, sum + i * levelCombinationValue[L]);
             check[i] = false;
+            resultArray[L] = 0;
+
+
         }
     }
 
+    for (let i = 0; i < n; i++) {
+        levelCombinationValue[i] = combination(n - 1, i);
+    }
+    console.log(levelCombinationValue)
+
+    dfs( 0, 0);
+     return answer;
 }
 
-solution(3)
+console.log(solution(4, 16));
 
 /*
 N =4 /  1, 2, 3, 4 까지의 수가 있고 3 1 2 4 로 예를 들면  3 +1 = 4 이고 1 + 2 = 3  2 +4 = 6 입니다.
