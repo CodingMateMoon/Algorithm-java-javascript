@@ -22,28 +22,32 @@
 function solution(n, m){
 
     let array = Array.from({length: n+1}, () => 0);
+    let check = Array.from({length: n+1}, () => 0);
     let combinationResult = Array.from(Array(n + 1), ()=>new Array(m + 1).fill(0));
 
-    function combination(L, r){
-        if (combinationResult[L][r] > 0) {
-            return combinationResult[L][r];
+    function dfs(L){
+
+        if (L === m) {
+            let result = "";
+            for (let i = 1; i <= n; i++) {
+                result += array[i];
+            }
+            console.log(result);
+            return;
         }
 
-        if (L === r || r === 0) {
-            return 1;
-        }
+        for (let i = 1; i <= n; i++) {
+            if(check[i])
+                continue;
 
-        combinationResult[L][r] = combination(L - 1, r - 1) + combination(L - 1, r);
-        return combinationResult[L][r];
+        }
     }
-
-    let answer = combination(4, 2);
-    return answer;
 }
 
 console.log(solution(4, 2));
 
 /*
 N개 중에 M개를 뽑는 경우 4개중에 2개를 뽑는 경우를 구하면 처음에 올 수 있는 경우 4가지 그 다음 경우 3가지가 있는데 순서가 상관없으므로 순서에 대한 경우를 제외해서 /2를 하면 4 * 3 / 2 = 6 이 나옵니다. 각 경우의 수를 사전순으로 출력하는 것이 필요합니다.  N C M = N - 1 C M -1 + N-1 C M 으로 나타낼 수 있고
-1 C 1 , 2 C 2 와 같이 N == M 인 경우 , 1 C 0, 2 C 0과 같이 M이 0인 경우 1을 return합니다. 4 C 2 = 3 C 1 + 3C2 등 각 조합의 결과값을 combinationResult[N][M]에 저장합니다.
+1 C 1 , 2 C 2 와 같이 N == M 인 경우 , 1 C 0, 2 C 0과 같이 M이 0인 경우 1을 return합니다. 4 C 2 = 3 C 1 + 3C2 등 각 조합의 결과값을 combinationResult[N][M]에 저장합니다. 1을 선택한 경우 2 3 4가 나올 수 있고 2를 선택한 경우 2 1, 2 3 , 2 4 가 나올 수 있지만 2 1 은 앞에서 1 2로 나왔기 때문에 제외합니다  인덱스 1 2 3 4 등이 있다고 할 때 1 2 , 2 3 과 같이 먼저 뽑은 인덱스 다음에는 그보다 큰 인덱스만 선택이 가능하도록 예외처리를 합니다. array[i] , array[j] 순으로 뽑을 때 i < j 인 경우만 구합니다.
+
  */
