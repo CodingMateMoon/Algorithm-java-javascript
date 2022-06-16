@@ -18,7 +18,8 @@ N개의 정수가 주어지면 그 숫자들 중 K개를 뽑는 조합의 합이
 2
  */
 
-function solution(n, k, array, m){
+
+function solutionBefore(n, k, array, m){
     let resultArray = Array.from({length: k}, () => 0);
     let answer = [];
     function dfs(level, startIndex){
@@ -43,8 +44,32 @@ function solution(n, k, array, m){
     return answer;
 }
 
-console.log(solution(5, 3, [2, 4, 5, 8, 12], 6));
+console.log(solutionBefore(5, 3, [2, 4, 5, 8, 12], 6));
 
 /*
 5개 숫자 중 3개를 뽑은 조합의 경우의 수를 구하고 각 경우의 수에 대해 6으로 나누었을 때 나머지가 0인 경우를 구하면 4 8 12, 2 4 12 로 2가지가 있습니다. N = 5개중 K = 3개를 뽑을 때 M = 6의 배수인 개수를 구해야합니다. 경우의 수를 구할때 resultArray[0] = array[1] = 4 를 선택한 경우 다음에 나올 수 있는 경우의 수는 dfs(Level, startIndex) = dfs(0 + 1, 1 + 1)  = dfs(1, 2) 입니다. for (let i = startIndex; i < k; i++) resultArray[level] = array[i] ; dfs(level + 1, startIndex + 1); if(level == k)일때 k개의 수를 다 뽑았으므로 sum에 각 resultArray[i] 요소를 더한 후 m으로 나눠서 나머지가 0인 경우 answer 배열에 담습니다. answer.push(resultArray.slice());
+ */
+
+function solutionRef(n, k, arr, m){
+    let answer=0;
+    function DFS(L, s, sum){
+        if(L===k){
+            if(sum%m===0) answer++;
+        }
+        else{
+            for(let i=s; i<n; i++){
+                DFS(L+1, i+1, sum+arr[i]);
+            }
+        }
+    }
+
+    DFS(0, 0, 0);
+    return answer;
+}
+
+let arr=[2, 4, 5, 8, 12];
+console.log(solutionRef(5, 3, arr, 6));
+
+/*
+인덱스 0 ~ 4 중에서 하나를 선택하고 0을 선택한 경우 그 다음 레벨에서는 1,2,3,4 중에 하나를 선택합니다. 1을 선택한 경우 그 다음에는 2 3 4 중에서 선택가능합니다. 인덱스를 선택할 때 해당 인덱스에 들어있는 값을 sum에 더해서 구합니다. dfs(level, start, sum)에서 다음 레벨을 구할때는 dfs(level +1, i + 1, sum + array[i]가 됩니다.
  */
