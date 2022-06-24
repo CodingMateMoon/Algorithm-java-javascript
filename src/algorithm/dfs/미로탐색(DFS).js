@@ -32,6 +32,8 @@ function solution(array){
     const length = array.length;
     let graph = Array.from({length: length+1}, ()=>new Array(length+1));
     let check = Array.from({length: length + 1}, () => new Array(length + 1).fill(false));
+    let directionX = [0, 0, -1, 1]; //상하좌우 이동 시 좌표 이동
+    let directionY = [1, -1, 0, 0];
     for (let i = 1; i <= array.length; i++) {
         for (let j = 1; j <= length; j++) {
             graph[i][j] = array[i - 1][j - 1];
@@ -39,20 +41,48 @@ function solution(array){
     }
     let count = 0;
     let answer = [];
+    let result = [];
     function dfs(x,y){
+
+        if(x <1 || y < 1)
+            return;
+
+        // console.log(x, y);
+        // console.log("graph : " + graph[x][y]);
+        if(graph[x][y])
+            return;
+
         if (x === 7 && y === 7) {
             count++;
+            answer.push(result.slice());
             return;
         }
 
-        if (x > 7 || y > 7) {
-            return;
-        }
 
+
+        for (let i = 0; i < 4; i++) {
+            let nextX = x + directionX[i] ;
+            let nextY = y + directionY[i] ;
+            if (nextX < 1 || nextY < 1 ||nextX > 7 || nextY > 7) {
+                continue;
+            }
+            console.log(i + " : (" + nextX + "," + nextY + ")");
+            console.log(check[nextX][nextY]);
+            if(check[nextX][nextY])
+                continue;
+            check[nextX][nextY] = true;
+            let point = nextX + " : " + nextY;
+            result.push(point);
+            dfs(nextX, nextY);
+            check[nextX][nextY] = false;
+            result.pop();
+        }
 
     }
-
+    check[1][1] = true;
     dfs(1, 1);
+    console.log("count : " + count);
+    return answer;
 }
 
 console.log(solution([[0, 0, 0, 0, 0, 0, 0], [0, 1, 1, 1, 1, 1, 0], [0, 0, 0, 1, 0, 0, 0], [1, 1, 0, 1, 0, 1, 1], [1, 1, 0, 0, 0, 0, 1], [1, 1, 0, 1, 1, 0, 0], [1, 0, 0, 0, 0, 0, 0]]));
